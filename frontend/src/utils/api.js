@@ -1,6 +1,7 @@
 import axios from 'axios';
 
-const API_URL = process.env.VITE_API_URL;
+// Vite uses import.meta.env instead of process.env
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
 
 const api = axios.create({
   baseURL: API_URL,
@@ -8,7 +9,7 @@ const api = axios.create({
 
 // Add token to every request if it exists
 api.interceptors.request.use(
-  (config) => {a
+  (config) => {
     const token = localStorage.getItem('token');
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
