@@ -25,11 +25,11 @@ const Navbar = () => {
 
           {/* Desktop Menu */}
           <div className="hidden md:flex items-center space-x-6">
-            <Link to="/" className="hover:text-gray-200 transition-colors">
+            <Link to="/" className="bg-white text-hn-orange px-4 py-2 rounded-lg hover:bg-gray-100 transition-colors font-medium">
               Home
             </Link>
             {user && (
-              <Link to="/bookmarks" className=" hover:text-gray-200 transition-colors">
+              <Link to="/bookmarks" className=" bg-white text-hn-orange px-4 py-2 rounded-lg hover:bg-gray-100 transition-colors font-medium">
                 Bookmarks
               </Link>
             )}
@@ -38,7 +38,7 @@ const Navbar = () => {
                 <span className="text-sm">👋 {user.name}</span>
                 <button
                   onClick={handleLogout}
-                  className="bg-white text-hn-orange px-4 py-2 rounded-lg hover:bg-gray-100 transition-colors font-medium"
+                  className="bg-white text-hn-orange px-4 py-2 rounded-lg hover:bg-gray-100 transition-colors font-medium cursor-pointer"
                 >
                   Logout
                 </button>
@@ -47,7 +47,7 @@ const Navbar = () => {
               <div className="flex items-center space-x-3">
                 <Link
                   to="/login"
-                  className="hover:text-gray-200 transition-colors"
+                  className="bg-white text-hn-orange px-4 py-2 rounded-lg hover:bg-gray-100 transition-colors font-medium"
                 >
                   Login
                 </Link>
@@ -81,7 +81,7 @@ const Navbar = () => {
           <div className="md:hidden pb-4 space-y-3">
             <Link
               to="/"
-              className="block hover:text-gray-200 transition-colors py-2"
+              className="block bg-white text-hn-orange px-4 py-2 rounded-lg hover:bg-gray-100 transition-colors font-medium py-2"
               onClick={() => setIsMenuOpen(false)}
             >
               Home
@@ -89,7 +89,7 @@ const Navbar = () => {
             {user && (
               <Link
                 to="/bookmarks"
-                className="block hover:text-gray-200 transition-colors py-2"
+                className="block bg-white text-hn-orange px-4 py-2 rounded-lg hover:bg-gray-100 transition-colors font-medium py-2"
                 onClick={() => setIsMenuOpen(false)}
               >
                 Bookmarks
@@ -109,7 +109,7 @@ const Navbar = () => {
               <div className="space-y-2">
                 <Link
                   to="/login"
-                  className="block hover:text-gray-200 transition-colors py-2"
+                  className="block bg-white text-hn-orange px-4 py-2 rounded-lg hover:bg-gray-100 transition-colors font-medium py-2"
                   onClick={() => setIsMenuOpen(false)}
                 >
                   Login

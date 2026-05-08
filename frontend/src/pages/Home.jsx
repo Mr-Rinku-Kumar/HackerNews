@@ -75,7 +75,7 @@ const Home = () => {
             <div className="text-center mt-8">
               <button
                 onClick={() => setPage(p => p + 1)}
-                className="bg-gray-200 px-6 py-2 rounded-lg hover:bg-gray-300 transition-colors"
+                className="bg-gray-200 px-6 py-2 rounded-lg hover:bg-gray-300 transition-colors cursor-pointer"
               >
                 Load More
               </button>
