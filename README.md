@@ -123,7 +123,7 @@ VITE_API_URL=http://localhost:5000/api
 For Production (Vercel):
 
 env
-VITE_API_URL=https://your-backend-url.onrender.com/api
+VITE_API_URL=https://hackernews-i6c0.onrender.com/api
 Note: Variables must start with VITE_ prefix for Vite.
 
 🚀 Running the Application
@@ -382,6 +382,7 @@ The MERN stack community
 
 🎥 Loom Video Walkthrough
 Click here to watch the video walkthrough
+https://drive.google.com/file/d/1_auYKnujFphakQvt-7nhOStlex07J3Cr/view?usp=sharing
 
 The video covers:
 
