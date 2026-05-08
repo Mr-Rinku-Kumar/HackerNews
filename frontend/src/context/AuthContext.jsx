@@ -10,11 +10,30 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    // Check if user is logged in on page refresh
     const token = localStorage.getItem('token');
     const userData = localStorage.getItem('userData');
+    
     if (token && userData) {
-      setUser({ token, ...JSON.parse(userData) });
+      try {
+        // Parse user data
+        const parsedUser = JSON.parse(userData);
+        
+        // Set authorization header for all future requests
+        api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+        
+        // Verify token is valid (optional: make a test API call)
+        setUser({ 
+          token, 
+          ...parsedUser 
+        });
+      } catch (error) {
+        console.error('Error restoring user session:', error);
+        localStorage.removeItem('token');
+        localStorage.removeItem('userData');
+      }
     }
+    
     setLoading(false);
   }, []);
 
@@ -22,8 +41,14 @@ export const AuthProvider = ({ children }) => {
     try {
       const response = await api.post('/auth/login', { email, password });
       const { token, _id, name, email: userEmail } = response.data;
+      
+      // Save to localStorage
       localStorage.setItem('token', token);
       localStorage.setItem('userData', JSON.stringify({ _id, name, email: userEmail }));
+      
+      // Set authorization header
+      api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+      
       setUser({ token, _id, name, email: userEmail });
       return { success: true };
     } catch (error) {
@@ -38,8 +63,14 @@ export const AuthProvider = ({ children }) => {
     try {
       const response = await api.post('/auth/register', { name, email, password });
       const { token, _id, name: userName, email: userEmail } = response.data;
+      
+      // Save to localStorage
       localStorage.setItem('token', token);
       localStorage.setItem('userData', JSON.stringify({ _id, name: userName, email: userEmail }));
+      
+      // Set authorization header
+      api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+      
       setUser({ token, _id, name: userName, email: userEmail });
       return { success: true };
     } catch (error) {
@@ -53,6 +84,7 @@ export const AuthProvider = ({ children }) => {
   const logout = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('userData');
+    delete api.defaults.headers.common['Authorization'];
     setUser(null);
   };
 

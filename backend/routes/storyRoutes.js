@@ -3,14 +3,18 @@ const {
   getAllStories, 
   getStoryById, 
   toggleBookmark,
-  getUserBookmarks  // Add this
+  getUserBookmarks
 } = require('../controllers/storyController');
 const { protect } = require('../middleware/authMiddleware');
+
 const router = express.Router();
 
+// Public routes
 router.get('/', getAllStories);
-router.get('/bookmarks', protect, getUserBookmarks); // Add this line - specific route first
 router.get('/:id', getStoryById);
+
+// Protected routes
+router.get('/user/bookmarks', protect, getUserBookmarks);
 router.post('/:id/bookmark', protect, toggleBookmark);
 
 module.exports = router;

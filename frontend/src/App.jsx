@@ -7,12 +7,32 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import Bookmarks from './pages/Bookmarks';
 
+// Protected Route Component
 const PrivateRoute = ({ children }) => {
-  const { user } = useAuth();
-  return user ? children : <Navigate to="/login" />;
+  const { user, loading } = useAuth();
+  
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center min-h-screen">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-hn-orange"></div>
+      </div>
+    );
+  }
+  
+  return user ? children : <Navigate to="/login" replace />;
 };
 
 function AppRoutes() {
+  const { loading } = useAuth();
+  
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center min-h-screen">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-hn-orange"></div>
+      </div>
+    );
+  }
+  
   return (
     <>
       <Navbar />
@@ -21,11 +41,14 @@ function AppRoutes() {
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
-          <Route path="/bookmarks" element={
-            <PrivateRoute>
-              <Bookmarks />
-            </PrivateRoute>
-          } />
+          <Route 
+            path="/bookmarks" 
+            element={
+              <PrivateRoute>
+                <Bookmarks />
+              </PrivateRoute>
+            } 
+          />
         </Routes>
       </main>
     </>
