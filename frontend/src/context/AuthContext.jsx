@@ -11,8 +11,9 @@ export const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     const token = localStorage.getItem('token');
-    if (token) {
-      setUser({ token });
+    const userData = localStorage.getItem('userData');
+    if (token && userData) {
+      setUser({ token, ...JSON.parse(userData) });
     }
     setLoading(false);
   }, []);
@@ -20,29 +21,38 @@ export const AuthProvider = ({ children }) => {
   const login = async (email, password) => {
     try {
       const response = await api.post('/auth/login', { email, password });
-      const { token } = response.data;
+      const { token, _id, name, email: userEmail } = response.data;
       localStorage.setItem('token', token);
-      setUser({ token });
+      localStorage.setItem('userData', JSON.stringify({ _id, name, email: userEmail }));
+      setUser({ token, _id, name, email: userEmail });
       return { success: true };
     } catch (error) {
-      return { success: false, error: error.response?.data?.message || 'Login failed' };
+      return { 
+        success: false, 
+        error: error.response?.data?.message || 'Login failed' 
+      };
     }
   };
 
   const register = async (name, email, password) => {
     try {
       const response = await api.post('/auth/register', { name, email, password });
-      const { token } = response.data;
+      const { token, _id, name: userName, email: userEmail } = response.data;
       localStorage.setItem('token', token);
-      setUser({ token });
+      localStorage.setItem('userData', JSON.stringify({ _id, name: userName, email: userEmail }));
+      setUser({ token, _id, name: userName, email: userEmail });
       return { success: true };
     } catch (error) {
-      return { success: false, error: error.response?.data?.message || 'Registration failed' };
+      return { 
+        success: false, 
+        error: error.response?.data?.message || 'Registration failed' 
+      };
     }
   };
 
   const logout = () => {
     localStorage.removeItem('token');
+    localStorage.removeItem('userData');
     setUser(null);
   };
 
